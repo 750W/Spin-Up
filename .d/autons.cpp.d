@@ -78,7 +78,8 @@ bin/autons.cpp.o: src/autons.cpp include/main.h include/api.h \
  include/EZ-Template/util.hpp include/EZ-Template/auton.hpp \
  include/EZ-Template/auton_selector.hpp \
  include/EZ-Template/drive/drive.hpp include/EZ-Template/sdcard.hpp \
- include/autons.hpp
+ include/autons.hpp src/config.cpp include/pros/adi.hpp \
+ include/pros/misc.hpp
 include/main.h:
 include/api.h:
 include/pros/adi.h:
@@ -236,3 +237,6 @@ include/EZ-Template/auton_selector.hpp:
 include/EZ-Template/drive/drive.hpp:
 include/EZ-Template/sdcard.hpp:
 include/autons.hpp:
+src/config.cpp:
+include/pros/adi.hpp:
+include/pros/misc.hpp:
