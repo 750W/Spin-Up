@@ -73,7 +73,7 @@ bin/autons.cpp.o: src/autons.cpp include/main.h include/api.h \
  include/pros/motors.h include/pros/optical.hpp include/pros/optical.h \
  include/pros/rotation.hpp include/pros/rotation.h include/pros/rtos.hpp \
  include/pros/rtos.h include/pros/screen.hpp include/pros/screen.h \
- include/pros/vision.hpp include/pros/vision.h \
+ include/pros/vision.hpp include/pros/vision.h include/pros/api_legacy.h \
  include/EZ-Template/api.hpp include/EZ-Template/PID.hpp \
  include/EZ-Template/util.hpp include/EZ-Template/auton.hpp \
  include/EZ-Template/auton_selector.hpp \
@@ -227,6 +227,7 @@ include/pros/screen.hpp:
 include/pros/screen.h:
 include/pros/vision.hpp:
 include/pros/vision.h:
+include/pros/api_legacy.h:
 include/EZ-Template/api.hpp:
 include/EZ-Template/PID.hpp:
 include/EZ-Template/util.hpp:

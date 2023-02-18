@@ -475,12 +475,12 @@ class Drive {
    * \param run_loading_animation
    *        bool for running loading animation
    */
-  bool imu_calibrate(bool run_loading_animation = true);
+  bool imu_calibrate(bool run_loading_animation = false);
 
   /**
    * Loading display while the IMU calibrates.
    */
-  void imu_loading_display(int iter);
+  //void imu_loading_display(int iter);
 
   /////
   //
@@ -700,8 +700,8 @@ class Drive {
   double slew_calculate(slew_ &input, double current);
 
  private:  // !Auton
-  bool drive_toggle = true;
-  bool print_toggle = true;
+  bool drive_toggle = false;
+  bool print_toggle = false;
   int swing_min = 0;
   int turn_min = 0;
 
