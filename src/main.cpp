@@ -1,7 +1,9 @@
 #include "main.h"
+#include "autons.hpp"
 #include "pros/adi.hpp"
 #include "pros/misc.h"
 #include "pros/misc.hpp"
+#include <vector>
 
 // Chassis constructor
 Drive chassis(
@@ -102,8 +104,18 @@ void autonomous() {
   chassis.set_drive_brake(MOTOR_BRAKE_HOLD); // Set motors to hold.  This helps
                                              // autonomous consistency.
 
-  ez::as::auton_selector
-      .call_selected_auton(); // Calls selected auton from autonomous selector.
+  //ez::as::auton_selector
+      //.call_selected_auton(); // Calls selected auton from autonomous selector.
+  std::vector<float> cur;
+  cur.push_back(0);
+  cur.push_back(0);
+
+  std::vector<float> tar;
+  tar.push_back(1);
+  tar.push_back(1);
+
+
+  std::vector<float> thing = std::vector(move_to_pose_step(cur, 0, tar, 90, 0.1, 0.1));
 }
 
 void opcontrol() {
@@ -164,8 +176,6 @@ void opcontrol() {
     } else {
       endgamePiston.set_value(false);
     }
-
-    
 
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!
                                        // Keep this ez::util::DELAY_TIME

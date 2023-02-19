@@ -1,6 +1,8 @@
 #pragma once
 
 #include "EZ-Template/drive/drive.hpp"
+#include <tuple>
+#include <vector>
 
 extern Drive chassis;
 
@@ -17,3 +19,4 @@ void one_mogo_constants();
 void two_mogo_constants();
 void exit_condition_defaults();
 void modified_exit_condition();
+std::vector<float> move_to_pose_step(std::vector<float> currentPos, float currentHeading, std::vector<float> targetPos, float targetHeading, float Kp_lin, float Kp_turn);
