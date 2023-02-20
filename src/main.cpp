@@ -39,6 +39,7 @@ Drive chassis(
     .6
 );
 
+
 pros::Motor catapult(15, true);
 //initializes catapult
 
@@ -52,9 +53,6 @@ bool catapultState = true;
 
 pros::Controller joystick(CONTROLLER_MASTER);
 
-const int INTAKE_SPEED = 600;
-const int CATAPULT_SPEED = 100;
-
 void initialize() {
 
   pros::delay(
@@ -66,7 +64,7 @@ void initialize() {
              // joysticks
   chassis.set_active_brake(0.1); // Sets the active brake kP. We recommend 0.1.
   chassis.set_curve_default(
-      0, 0); // Defaults for curve. If using tank, only the first parameter is
+      0,  10); // Defaults for curve. If using tank, only the first parameter is
              // used. (Comment this line out if you have an SD card!)
   default_constants(); // Set the drive to your own constants from autons.cpp!
   exit_condition_defaults(); // Set the exit conditions to your own constants
@@ -91,7 +89,7 @@ void initialize() {
   
 
   // Initialize chassis and auton selector
-  //chassis.initialize();
+  chassis.initialize();
   ez::as::initialize();
   chassis.set_drive_brake(MOTOR_BRAKE_COAST);
 }
@@ -106,6 +104,9 @@ void autonomous() {
 
   //ez::as::auton_selector
       //.call_selected_auton(); // Calls selected auton from autonomous selector.
+
+  awp();
+  
   std::vector<float> cur;
   cur.push_back(0);
   cur.push_back(0);
@@ -115,7 +116,7 @@ void autonomous() {
   tar.push_back(1);
 
 
-  std::vector<float> thing = std::vector(move_to_pose_step(cur, 0, tar, 90, 0.1, 0.1));
+  //std::vector<float> thing = std::vector(move_to_pose_step(cur, 0, tar, 90, 0.1, 0.1));
 }
 
 void opcontrol() {
@@ -155,6 +156,9 @@ void opcontrol() {
       if (joystick.get_digital(pros::E_CONTROLLER_DIGITAL_X)) {
         catapult.move_velocity(CATAPULT_SPEED);
       } else if (limitSwitch.get_value()) {
+        catapult.move_velocity(0);
+        catapult.move_velocity(CATAPULT_SPEED);
+        pros::delay(10);
         catapult.move_velocity(0);
       } else {
         catapult.move_velocity(CATAPULT_SPEED);
