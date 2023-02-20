@@ -1,3 +1,4 @@
+#include "autons.hpp"
 #include "main.h"
 #include <cmath>
 #include <type_traits>
@@ -243,6 +244,65 @@ void interfered_example() {
 
  chassis.set_turn_pid(90, TURN_SPEED);
  chassis.wait_drive();
+}
+
+void awp(){
+  
+  chassis.set_drive_pid(10, DRIVE_SPEED, true);
+  chassis.wait_drive();
+
+  intake.move_velocity(-INTAKE_SPEED);
+  pros::delay(200);
+
+  intake.move_velocity(0);
+  pros::delay(10);
+
+  chassis.set_drive_pid(-10, DRIVE_SPEED, true);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(45, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(-200, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(50, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(-37, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(10, DRIVE_SPEED);
+  pros::delay(200);
+
+  catapult.move_velocity(CATAPULT_SPEED);
+  pros::delay(1000);
+
+  while(!limitSwitch.get_value()){
+    catapult.move_velocity(CATAPULT_SPEED);
+  }
+  
+  catapult.move_velocity(0);
+  pros::delay(10);
+
+  chassis.set_drive_pid(-50, DRIVE_SPEED);
+  pros::delay(200);
+
+  chassis.set_turn_pid(-90, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(80, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(-45, DRIVE_SPEED);
+  chassis.wait_drive();
+  
+  chassis.set_drive_pid(100, DRIVE_SPEED);
+  chassis.wait_drive();
+
+
+
+  
 }
 
 
