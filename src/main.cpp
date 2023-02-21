@@ -74,7 +74,8 @@ void initialize() {
 
   
   ez::as::auton_selector.add_autons({
-      Auton("Example Drive\n\nDrive forward and come back.", drive_example),
+      Auton("Example Drive\n\nDrive u34fhjio3rhfio and come back.", drive_example),
+      Auton("Example Turn\n\nTurn 3 times.", turn_example),
       Auton("Example Turn\n\nTurn 3 times.", turn_example),
       Auton("Drive and Turn\n\nDrive forward, turn, come back. ",
             drive_and_turn),
