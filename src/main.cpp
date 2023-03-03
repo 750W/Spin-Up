@@ -9,16 +9,16 @@
 Drive chassis(
     // Left Chassis Ports (negative port will reverse it!)
     //   the first port is the sensored port (when trackers are not used!)
-    {-3, -5, -13}
+    {-20, -19, -18}
 
     // Right Chassis Ports (negative port will reverse it!)
     //   the first port is the sensored port (when trackers are not used!)
     ,
-    {8, 10, 19}
+    {11, 2, 9}
 
     // IMU Port
     ,
-    9
+    4
 
     // Wheel Diameter (Remember, 4" wheels are actually 4.125!)
     //    (or tracking wheel diameter)
@@ -40,14 +40,17 @@ Drive chassis(
 );
 
 
-pros::Motor catapult(15, true);
+pros::Motor catapult(18, true);
 //initializes catapult
 
-pros::Motor intake(4);
+pros::Motor intake(14);
 //initializes intake
 
 pros::ADIButton limitSwitch('F');
-pros::ADIDigitalOut endgamePiston('C');
+pros::ADIDigitalOut endgamePiston('G');
+pros::ADIDigitalOut bandReleasePiston('H');
+
+pros::Vision vision_sensor(16);
 
 bool catapultState = true;
 

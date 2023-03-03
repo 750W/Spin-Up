@@ -25,6 +25,184 @@ const int SWING_SPEED = 90;
 
 // It's best practice to tune constants when the robot is empty and with heavier game objects, or with lifts up vs down.
 // If the objects are light or the cog doesn't change much, then there isn't a concern here.
+void vision_roller(){
+  vision_sensor.clear_led();
+  pros::lcd::initialize();
+  while(vision_sensor.get_by_size(0).signature != 1) {
+    pros::lcd::set_text(1, std::to_string(vision_sensor.get_by_size(0).signature));
+    intake.move_velocity(250);
+    //pros::delay(20);
+  }
+  intake.move_velocity(0);
+  pros::delay(20);
+  
+}
+
+void cata_funct (void*) {
+
+  while(true) {
+    //while the program is running
+
+    while(!limitSwitch.get_value()) { //if limit switch is not pressed 
+      //run cata
+      catapult.move_velocity(CATAPULT_SPEED);
+    }
+
+    //stop cata once limit switch is pressed
+    catapult.move_velocity(0);
+    pros::delay(10);
+  }
+  
+}
+
+void prog_skills() {
+  cata_task.resume();
+  // Get roller 1
+  roller(200, -40);
+
+  // Get first disk
+  intake.move_velocity(INTAKE_SPEED);
+
+  //turning to roller 2
+  chassis.set_turn_pid(90, TURN_SPEED);
+  chassis.wait_drive();
+  
+  //move to roller 2
+  chassis.set_drive_pid(40, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  //stop intake
+  intake.move_velocity(0);
+  pros::delay(10);
+
+  //move towards roller 2
+  chassis.set_drive_pid(60, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  //roller 2
+  roller(200, -50);
+
+  //unsure- check if this does anything once done
+  chassis.set_turn_pid(0, TURN_SPEED);
+  chassis.wait_drive();
+
+  //move to goal 
+  chassis.set_drive_pid(-130, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  cata_task.suspend();
+
+  //shoot in high goal
+  shoot();
+
+  cata_task.resume();
+
+  //move back
+  chassis.set_drive_pid(80, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  //turn towards second line of discs
+  chassis.set_turn_pid(-135, TURN_SPEED);
+  chassis.wait_drive();
+
+  //turn on intake motor
+  intake.move_velocity(INTAKE_SPEED);
+
+  //drive through discs and intake three
+  chassis.set_drive_pid(190, DRIVE_SPEED-50);
+  chassis.wait_drive();
+
+  pros::delay(1500);
+  
+  //stop intake
+  intake.move_velocity(0);
+  pros::delay(10);
+
+  //push three-stack in front
+  chassis.set_drive_pid(60, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  //move back
+  chassis.set_drive_pid(-45, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  //turn to high goal
+  chassis.set_turn_pid(-57, TURN_SPEED);
+  chassis.wait_drive();
+
+  //move slightly backwards
+  chassis.set_drive_pid(20, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  //shoot discs in high goal
+  shoot();
+
+  chassis.set_drive_pid(-20, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(-135, TURN_SPEED);
+  chassis.wait_drive();
+
+  intake.move_velocity(INTAKE_SPEED);
+
+  chassis.set_drive_pid(70, DRIVE_SPEED);
+  chassis.wait_drive();
+
+}
+
+void shoot(){
+
+  catapult.move_velocity(CATAPULT_SPEED);
+  pros::delay(1500);
+
+}
+
+void roller(int delay1, int delay2){
+  chassis.set_drive_pid(10, DRIVE_SPEED, true);
+  chassis.wait_drive();
+
+  intake.move_velocity(-INTAKE_SPEED);
+  pros::delay(delay1);
+
+  intake.move_velocity(0);
+  pros::delay(10);
+
+  chassis.set_drive_pid(delay2, DRIVE_SPEED, true);
+  chassis.wait_drive();
+}
+
+void awp(){
+  
+  roller(200, -10);
+
+  chassis.set_turn_pid(45, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(-200, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(50, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_turn_pid(-37, DRIVE_SPEED);
+  chassis.wait_drive();
+
+  chassis.set_drive_pid(10, DRIVE_SPEED);
+  pros::delay(200);
+
+  catapult.move_velocity(CATAPULT_SPEED);
+  pros::delay(1000);
+
+  while(!limitSwitch.get_value()){
+    catapult.move_velocity(CATAPULT_SPEED);
+  }
+  
+  catapult.move_velocity(0);
+  pros::delay(10);
+
+  bandReleasePiston.set_value(1);
+  pros::delay(10);
+}
 
 void default_constants() {
   chassis.set_slew_min_power(80, 80);
@@ -245,67 +423,6 @@ void interfered_example() {
  chassis.set_turn_pid(90, TURN_SPEED);
  chassis.wait_drive();
 }
-
-void awp(){
-  
-  chassis.set_drive_pid(10, DRIVE_SPEED, true);
-  chassis.wait_drive();
-
-  intake.move_velocity(-INTAKE_SPEED);
-  pros::delay(200);
-
-  intake.move_velocity(0);
-  pros::delay(10);
-
-  chassis.set_drive_pid(-10, DRIVE_SPEED, true);
-  chassis.wait_drive();
-
-  chassis.set_turn_pid(45, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  chassis.set_drive_pid(-200, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  chassis.set_drive_pid(50, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  chassis.set_turn_pid(-37, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  chassis.set_drive_pid(10, DRIVE_SPEED);
-  pros::delay(200);
-
-  catapult.move_velocity(CATAPULT_SPEED);
-  pros::delay(1000);
-
-  while(!limitSwitch.get_value()){
-    catapult.move_velocity(CATAPULT_SPEED);
-  }
-  
-  catapult.move_velocity(0);
-  pros::delay(10);
-
-  chassis.set_drive_pid(-50, DRIVE_SPEED);
-  pros::delay(200);
-
-  chassis.set_turn_pid(-90, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  chassis.set_drive_pid(80, DRIVE_SPEED);
-  chassis.wait_drive();
-
-  chassis.set_turn_pid(-45, DRIVE_SPEED);
-  chassis.wait_drive();
-  
-  chassis.set_drive_pid(100, DRIVE_SPEED);
-  chassis.wait_drive();
-
-
-
-  
-}
-
-
 
 // . . .
 // Make your own autonomous functions here!

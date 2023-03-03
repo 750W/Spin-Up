@@ -22,7 +22,7 @@
 #include <stdint.h>
 
 #include "adi.h"
-#include "pros/adi.h"
+
 #ifndef PROS_ERR
 #define PROS_ERR (INT32_MAX)
 #endif
